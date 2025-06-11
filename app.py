@@ -3,76 +3,97 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import linprog
 
-# Sidebar
-st.sidebar.title("Instruksi")
-st.sidebar.markdown("Pilih salah satu model dari tab di atas untuk melakukan simulasi perhitungan dan melihat grafik visualisasi.")
+st.set_page_config(page_title="Model Matematika Industri", layout="wide")
 
-# Tabs
-tab1, tab2, tab3, tab4 = st.tabs(["Optimasi Produksi", "Model Persediaan (EOQ)", "Model Antrian (M/M/1)", "Model Matematika Lain"])
+# Sidebar instruksi
+with st.sidebar:
+    st.title("Instruksi Penggunaan")
+    st.write("Aplikasi ini berisi 4 model matematika industri:")
+    st.markdown("1. Optimasi Produksi\n2. Model EOQ\n3. Model Antrian M/M/1\n4. Break-even Analysis")
 
-# 1. Optimasi Produksi (Linear Programming)
+# Tabs utama
+tab1, tab2, tab3, tab4 = st.tabs([
+    "Optimasi Produksi", "Model Persediaan (EOQ)", "Model Antrian (M/M/1)", "Model Matematika Lain"
+])
+
+# 1. Optimasi Produksi
 with tab1:
     st.header("Optimasi Produksi (Linear Programming)")
-    st.markdown("Model sederhana untuk maksimisasi keuntungan")
-    
-    c = [-40, -30]  # keuntungan per unit produk A dan B
-    A = [[1, 1], [2, 1]]  # batasan: waktu mesin 1 dan 2
-    b = [40, 60]  # total waktu tersedia
+    st.markdown("Contoh Kasus: Sebuah pabrik memproduksi dua jenis produk, A dan B. Waktu mesin dan keuntungan berbeda.")
+
+    st.subheader("Input Data")
+    profit_A = st.number_input("Keuntungan per unit Produk A", value=40)
+    profit_B = st.number_input("Keuntungan per unit Produk B", value=30)
+    waktu_mesin1 = st.number_input("Batas waktu mesin 1", value=40)
+    waktu_mesin2 = st.number_input("Batas waktu mesin 2", value=60)
+
+    # Fungsi Objektif dan Batasan
+    c = [-profit_A, -profit_B]
+    A = [[1, 1], [2, 1]]
+    b = [waktu_mesin1, waktu_mesin2]
 
     res = linprog(c, A_ub=A, b_ub=b, method='highs')
-    
-    if res.success:
-        st.success(f"Produksi optimal: Produk A = {res.x[0]:.2f}, Produk B = {res.x[1]:.2f}, Total Profit = {-res.fun:.2f}")
 
+    if res.success:
+        st.success(f"Produksi Optimal:\n- Produk A = {res.x[0]:.2f}\n- Produk B = {res.x[1]:.2f}\n- Total Profit = {-res.fun:.2f}")
         fig, ax = plt.subplots()
-        ax.bar(['Produk A', 'Produk B'], res.x)
+        ax.bar(['Produk A', 'Produk B'], res.x, color=['skyblue', 'salmon'])
+        ax.set_title("Jumlah Produksi Optimal")
         st.pyplot(fig)
     else:
-        st.error("Optimisasi gagal.")
+        st.error("Gagal menyelesaikan optimisasi")
 
-# 2. Model Persediaan (EOQ)
+# 2. Model EOQ
 with tab2:
-    st.header("Model Persediaan (EOQ)")
+    st.header("Model Persediaan EOQ")
+    st.markdown("Contoh Kasus: Toko ingin menentukan jumlah pemesanan optimal untuk meminimalkan total biaya persediaan.")
+
     D = st.number_input("Permintaan Tahunan (D)", value=1000)
     S = st.number_input("Biaya Pemesanan (S)", value=50)
     H = st.number_input("Biaya Penyimpanan per unit per tahun (H)", value=2)
 
     EOQ = np.sqrt((2 * D * S) / H)
-    st.success(f"Economic Order Quantity (EOQ): {EOQ:.2f} unit")
+    st.success(f"EOQ: {EOQ:.2f} unit")
 
-    fig, ax = plt.subplots()
     q = np.linspace(1, 2 * EOQ, 100)
     TC = (D / q) * S + (q / 2) * H
-    ax.plot(q, TC)
-    ax.set_title("Total Cost vs Order Quantity")
+    fig, ax = plt.subplots()
+    ax.plot(q, TC, label="Total Cost")
+    ax.axvline(EOQ, color='red', linestyle='--', label='EOQ')
+    ax.set_title("Total Cost vs EOQ")
     ax.set_xlabel("Order Quantity")
     ax.set_ylabel("Total Cost")
+    ax.legend()
     st.pyplot(fig)
 
-# 3. Model Antrian (M/M/1)
+# 3. Model Antrian M/M/1
 with tab3:
     st.header("Model Antrian (M/M/1)")
-    λ = st.number_input("Rata-rata kedatangan (λ)", value=2.0)
-    μ = st.number_input("Rata-rata pelayanan (μ)", value=4.0)
+    st.markdown("Contoh Kasus: Sebuah loket layanan menerima pelanggan dengan rata-rata kedatangan dan waktu layanan tertentu.")
+
+    λ = st.number_input("Rata-rata kedatangan per jam (λ)", value=2.0)
+    μ = st.number_input("Rata-rata pelayanan per jam (μ)", value=4.0)
 
     if λ < μ:
         ρ = λ / μ
         L = ρ / (1 - ρ)
         W = 1 / (μ - λ)
-        st.success(f"Rho (utilisasi): {ρ:.2f}\nJumlah rata-rata pelanggan (L): {L:.2f}\nWaktu rata-rata dalam sistem (W): {W:.2f} jam")
-
+        st.success(f"ρ = {ρ:.2f}, L = {L:.2f}, W = {W:.2f} jam")
         fig, ax = plt.subplots()
-        ax.bar(['Utilisasi (ρ)', 'L', 'W'], [ρ, L, W])
+        ax.bar(['ρ', 'L', 'W'], [ρ, L, W], color=['lightgreen', 'orange', 'purple'])
+        ax.set_title("Karakteristik Sistem Antrian")
         st.pyplot(fig)
     else:
-        st.error("Model tidak valid: λ harus lebih kecil dari μ")
+        st.error("λ harus lebih kecil dari μ")
 
-# 4. Model Matematika Lainnya: Break-even Analysis
+# 4. Model Tambahan - Break-even
 with tab4:
     st.header("Break-even Analysis")
-    FC = st.number_input("Fixed Cost (FC)", value=10000)
-    VC = st.number_input("Variable Cost per unit (VC)", value=20)
-    P = st.number_input("Harga Jual per unit (P)", value=50)
+    st.markdown("Contoh Kasus: Sebuah usaha ingin mengetahui titik impas penjualannya.")
+
+    FC = st.number_input("Biaya Tetap (FC)", value=10000)
+    VC = st.number_input("Biaya Variabel/unit (VC)", value=20)
+    P = st.number_input("Harga Jual/unit (P)", value=50)
 
     if P > VC:
         BEQ = FC / (P - VC)
@@ -86,6 +107,9 @@ with tab4:
         ax.plot(q, total_cost, label='Total Cost')
         ax.plot(q, revenue, label='Revenue')
         ax.axvline(BEQ, color='gray', linestyle='--', label='Break-even Point')
+        ax.set_title("Analisis Titik Impas")
+        ax.set_xlabel("Kuantitas")
+        ax.set_ylabel("Rupiah")
         ax.legend()
         st.pyplot(fig)
     else:
