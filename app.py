@@ -75,10 +75,10 @@ with tab2:
 # 3. Model Antrian M/M/1
 with tab3:
     st.header("Model Antrian (M/M/1)")
-    st.markdown("Sebuah loket layanan menerima pelanggan dengan rata-rata kedatangan dan waktu layanan tertentu.")
+    st.markdown("Sebuah layanan SPBU memiliki 1 pompa khusus untuk pengisian bensin motor.")
 
-    λ = st.number_input("Rata-rata kedatangan per jam (λ)", value=2.0)
-    μ = st.number_input("Rata-rata pelayanan per jam (μ)", value=4.0)
+    λ = st.number_input("Rata-rata kedatangan per jam (λ)", value=10.0)
+    μ = st.number_input("Rata-rata pelayanan per jam (μ)", value=15.0)
 
     if λ > 0 and μ > 0:
         if λ < μ:
