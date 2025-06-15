@@ -13,13 +13,13 @@ with st.sidebar:
 
 # Tabs utama
 tab1, tab2, tab3, tab4 = st.tabs([
-    "Optimasi Produksi", "Model Persediaan (EOQ)", "Model Antrian (M/M/1)", "Model Matematika Lain"
+    "Optimasi Produksi", "Model Persediaan (EOQ)", "Model Antrian (M/M/1)", "Break Event Point (BEP)"
 ])
 
 # 1. Optimasi Produksi
 with tab1:
     st.header("Optimasi Produksi (Linear Programming)")
-    st.markdown("Contoh Kasus: Sebuah pabrik memproduksi dua jenis produk, A dan B dengan fungsi Z = 40x + 30y. Waktu mesin dan keuntungan berbeda.")
+    st.markdown("Sebuah pabrik memproduksi dua jenis produk, Kipas angin(x) dan Blender(y) dengan keuntungan yang didapat dari produk kipas angin sebesar 40jt dan blender sebesar 30jt. Waktu mesin dan keuntungan berbeda.\n2. Fungsi ini ditulis dengan Z = 40x + 30y")
 
     st.subheader("Input Data")
     profit_A = st.number_input("Keuntungan per unit Produk A", value=40.0)
@@ -49,10 +49,10 @@ with tab1:
 # 2. Model EOQ
 with tab2:
     st.header("Model Persediaan EOQ")
-    st.markdown("Contoh Kasus: Toko ingin menentukan jumlah pemesanan optimal untuk meminimalkan total biaya persediaan.")
+    st.markdown("Sebuah toko ingin menentukan jumlah pemesanan optimal untuk jumlah pembelian bahan baku optimal agar biaya penyimpanan & pemesanan minimum.")
 
-    D = st.number_input("Permintaan Tahunan (D)", value=1000.0)
-    S = st.number_input("Biaya Pemesanan (S)", value=50.0)
+    D = st.number_input("Permintaan Tahunan (D)", value=100.0)
+    S = st.number_input("Biaya Pemesanan (S)", value=5.0)
     H = st.number_input("Biaya Penyimpanan per unit per tahun (H)", value=2.0)
 
     if D > 0 and S > 0 and H > 0:
@@ -75,7 +75,7 @@ with tab2:
 # 3. Model Antrian M/M/1
 with tab3:
     st.header("Model Antrian (M/M/1)")
-    st.markdown("Contoh Kasus: Sebuah loket layanan menerima pelanggan dengan rata-rata kedatangan dan waktu layanan tertentu.")
+    st.markdown("Sebuah loket layanan menerima pelanggan dengan rata-rata kedatangan dan waktu layanan tertentu.")
 
     λ = st.number_input("Rata-rata kedatangan per jam (λ)", value=2.0)
     μ = st.number_input("Rata-rata pelayanan per jam (μ)", value=4.0)
@@ -99,7 +99,7 @@ with tab3:
 # 4. Model Tambahan - Break-even
 with tab4:
     st.header("Break-even Analysis")
-    st.markdown("Contoh Kasus: Sebuah usaha ingin mengetahui titik impas penjualannya.")
+    st.markdown("Sebuah usaha ingin mengetahui titik impas penjualannya untuk menentukan berapa unit produk yang harus dijual agar tidak rugi.")
 
     FC = st.number_input("Biaya Tetap (FC)", value=10000.0)
     VC = st.number_input("Biaya Variabel/unit (VC)", value=20.0)
