@@ -22,8 +22,8 @@ with tab1:
     st.markdown("Sebuah pabrik memproduksi dua jenis produk, Kipas angin(x) dan Blender(y) dengan keuntungan yang didapat dari produk kipas angin sebesar 40jt dan blender sebesar 30jt. Waktu mesin dan keuntungan berbeda.\n2. Fungsi ini ditulis dengan Z = 40x + 30y")
 
     st.subheader("Input Data")
-    profit_A = st.number_input("Keuntungan per unit Produk A", value=40.0)
-    profit_B = st.number_input("Keuntungan per unit Produk B", value=30.0)
+    profit_A = st.number_input("Keuntungan per unit Produk x", value=40.0)
+    profit_B = st.number_input("Keuntungan per unit Produk y", value=30.0)
     waktu_mesin1 = st.number_input("Batas waktu mesin 1", value=15.0)
     waktu_mesin2 = st.number_input("Batas waktu mesin 2", value=20.0)
 
