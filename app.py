@@ -19,7 +19,7 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # 1. Optimasi Produksi
 with tab1:
     st.header("Optimasi Produksi (Linear Programming)")
-    st.markdown("Contoh Kasus: Sebuah pabrik memproduksi dua jenis produk, A dan B. Waktu mesin dan keuntungan berbeda.")
+    st.markdown("Contoh Kasus: Sebuah pabrik memproduksi dua jenis produk, A dan B dengan fungsi Z = 40x + 30y. Waktu mesin dan keuntungan berbeda.")
 
     st.subheader("Input Data")
     profit_A = st.number_input("Keuntungan per unit Produk A", value=40.0)
