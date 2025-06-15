@@ -102,8 +102,8 @@ with tab4:
     st.markdown("Sebuah usaha ingin mengetahui titik impas penjualannya untuk menentukan berapa unit produk yang harus dijual agar tidak rugi.")
 
     FC = st.number_input("Biaya Tetap (FC)", value=10000.0)
-    VC = st.number_input("Biaya Variabel/unit (VC)", value=20.0)
-    P = st.number_input("Harga Jual/unit (P)", value=50.0)
+    VC = st.number_input("Biaya Variabel/unit (VC)", value=60.0)
+    P = st.number_input("Harga Jual/unit (P)", value=100.0)
 
     if FC >= 0 and VC >= 0 and P > VC:
         BEQ = FC / (P - VC)
