@@ -24,8 +24,8 @@ with tab1:
     st.subheader("Input Data")
     profit_A = st.number_input("Keuntungan per unit Produk A", value=40.0)
     profit_B = st.number_input("Keuntungan per unit Produk B", value=30.0)
-    waktu_mesin1 = st.number_input("Batas waktu mesin 1", value=40.0)
-    waktu_mesin2 = st.number_input("Batas waktu mesin 2", value=60.0)
+    waktu_mesin1 = st.number_input("Batas waktu mesin 1", value=15.0)
+    waktu_mesin2 = st.number_input("Batas waktu mesin 2", value=20.0)
 
     if waktu_mesin1 > 0 and waktu_mesin2 > 0 and profit_A >= 0 and profit_B >= 0:
         c = [-profit_A, -profit_B]
